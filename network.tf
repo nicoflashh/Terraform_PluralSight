@@ -8,10 +8,7 @@ terraform {
   }
 }
 provider "aws" {
-    access_key = var.aws_access_key
-    secret_key = var.aws_secret_key
     region = var.aws_region
-  
 }
 
 
@@ -42,7 +39,7 @@ resource "aws_subnet" "terraform_PrivateSubnet" {
   cidr_block =  var.vpc_public_subnet_cidr_block[1]
   vpc_id = aws_vpc.terraform_VPC.id
   map_public_ip_on_launch = true
-  availability_zone = data.aws_availability_zones.available.names[0]
+  availability_zone = data.aws_availability_zones.available.names[1]
 }
 
 #DATA
@@ -92,4 +89,24 @@ resource "aws_vpc_security_group_egress_rule" "TF_Ingress_Nginx_SG" {
   ip_protocol = var.allow_all_outbound
   
 }
+#2 Instance Security Group
 
+resource "aws_security_group" "ALB_SG" {
+  name = "Nginx_ALB_SG"
+  description = "Security Group Nginx Created with Terraform"
+  vpc_id = aws_vpc.terraform_VPC.id
+}
+resource "aws_vpc_security_group_ingress_rule" "TF_Ingress_ALB_SG" {
+  security_group_id = aws_security_group.ALB_SG.id
+  cidr_ipv4 = var.vpc_cidr_block
+  from_port = var.http_port_cidr_block
+  to_port = var.http_port_cidr_block
+  ip_protocol = var.tcp_protocol
+}
+
+resource "aws_vpc_security_group_egress_rule" "TF_Ingress_ALB_SG" {
+  security_group_id = aws_security_group.ALB_SG.id
+  cidr_ipv4 = var.route_table_cidr_block
+  ip_protocol = var.allow_all_outbound
+  
+}
