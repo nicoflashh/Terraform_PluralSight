@@ -1,17 +1,3 @@
-#Providers
-terraform {
-  required_providers {
-    aws = {
-      source = "hashicorp/aws"
-      version = "5.84.0"
-    }
-  }
-}
-provider "aws" {
-    region = var.aws_region
-}
-
-
 #Resources 
 #VPC
 resource "aws_vpc" "terraform_VPC" {
@@ -109,4 +95,11 @@ resource "aws_vpc_security_group_egress_rule" "TF_Ingress_ALB_SG" {
   cidr_ipv4 = var.route_table_cidr_block
   ip_protocol = var.allow_all_outbound
   
+}
+
+
+#Random Integer 
+resource "random_integer" "s3_random_number" {
+  min = 10000
+  max = 999999
 }

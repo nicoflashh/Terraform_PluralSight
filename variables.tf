@@ -6,20 +6,6 @@
 #}
 #var.<name_label>
 
-variable "aws_access_key" {
-    type = string
-    description = "AWS access Keys"
-    sensitive = true
-  
-}
-
-variable "aws_secret_key" {
-    type = string
-    description = "AWS secret Keys"
-    sensitive = true
-  
-}
-
 variable "aws_region" {
     type = string
     description = "AWS Region"
@@ -88,3 +74,5 @@ variable "billing_code" {
   type        = string
   description = "Billing code for resource tagging"
 }
+
+
