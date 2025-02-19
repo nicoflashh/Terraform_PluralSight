@@ -98,8 +98,3 @@ resource "aws_vpc_security_group_egress_rule" "TF_Ingress_ALB_SG" {
 }
 
 
-#Random Integer 
-resource "random_integer" "s3_random_number" {
-  min = 10000
-  max = 999999
-}
